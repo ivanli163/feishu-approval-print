@@ -40,5 +40,5 @@
     "webpack-dev-server": "^4.15.1",
     "gh-pages": "^6.1.0"
   },
-  "homepage": "https://[your-username].github.io/[your-repo-name]"
+  "homepage": "https://ivanli163.github.io/feishu-approval-print"
 }
