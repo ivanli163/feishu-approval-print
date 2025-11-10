@@ -79,19 +79,8 @@ const App: React.FC = () => {
     }
   };
 
-  // 检查是否在飞书环境中
-  const isFeishuEnvironment = window.location.href.includes('feishu.cn') ||
-                             window.location.href.includes('larksuite.com') ||
-                             window.location.href.includes('fs.huidu.cn');
-
-  // 开发环境跳过飞书环境检查
-  const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-  // 检查是否有有效的应用配置
-  const hasValidConfig = appInfo && appInfo.appId && appInfo.tableId;
-
   // 独立浏览器模式：始终显示完整应用界面
-  const shouldShowFullApp = true; // 改为始终显示完整应用
+  const shouldShowFullApp = true;
 
   // 渲染标签页内容
   const renderTabContent = () => {
@@ -130,7 +119,7 @@ const App: React.FC = () => {
             <div className="header-content">
               <div className="header-left">
                 <h1 className="app-title">
-                  🖨️ 飞书审批打印插件
+                  🖨️ 审批打印插件
                 </h1>
               </div>
               <div className="header-right">
@@ -285,9 +274,9 @@ const App: React.FC = () => {
         {/* 底部信息 */}
         <div className="app-footer">
           <div className="footer-content">
-            <span>© 2024 飞书审批打印插件 v1.0.0</span>
+            <span>© 2024 审批打印插件 v1.0.0</span>
             <span>
-              {!appInfo ? '模拟数据模式' : '飞书集成模式'}
+              {!appInfo ? '演示数据模式' : '集成模式'}
             </span>
           </div>
         </div>
