@@ -29,8 +29,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const initApp = async () => {
       try {
+        // 尝试初始化SDK（用于飞书环境）
         await feishuSDK.init();
-
         const context = feishuSDK.getContext();
         setAppInfo(context);
 
@@ -42,9 +42,9 @@ const App: React.FC = () => {
 
         setLoading(false);
 
-        message.success('飞书审批打印插件启动成功', 2);
+        message.success('审批打印插件启动成功！', 2);
       } catch (error) {
-        console.error('应用初始化失败:', error);
+        console.log('独立浏览器模式：使用模拟数据运行', error);
 
         // 移除加载动画
         const loadingElement = document.getElementById('loading');
@@ -54,13 +54,8 @@ const App: React.FC = () => {
 
         setLoading(false);
 
-        // 检查上下文是否存在
-        const context = feishuSDK.getContext();
-        if (!context) {
-          message.error('未在飞书环境中运行，请在飞书多维表格中使用此应用', 5);
-        } else {
-          message.error('应用初始化失败，请检查应用配置', 3);
-        }
+        // 在独立浏览器模式下提供友好的提示
+        message.info('正在使用演示数据模式', 2);
       }
     };
 
@@ -95,8 +90,8 @@ const App: React.FC = () => {
   // 检查是否有有效的应用配置
   const hasValidConfig = appInfo && appInfo.appId && appInfo.tableId;
 
-  // 本地开发时，强制显示完整应用界面
-  const shouldShowFullApp = isDevelopment || (isFeishuEnvironment && hasValidConfig);
+  // 独立浏览器模式：始终显示完整应用界面
+  const shouldShowFullApp = true; // 改为始终显示完整应用
 
   // 渲染标签页内容
   const renderTabContent = () => {
@@ -116,7 +111,7 @@ const App: React.FC = () => {
     }
   };
 
-  // 如果没有有效的飞书环境且不在开发环境，显示环境状态页面
+  // 独立浏览器模式：始终显示完整应用，不再显示环境状态页面
   if (!shouldShowFullApp) {
     return (
       <ConfigProvider
@@ -183,7 +178,7 @@ const App: React.FC = () => {
           <div className="header-content">
             <div className="header-left">
               <h1 className="app-title">
-                🖨️ 飞书审批打印插件
+                🖨️ 审批打印插件
               </h1>
               {appInfo && (
                 <div className="app-info">
@@ -204,7 +199,7 @@ const App: React.FC = () => {
                   onClick={handleSyncAll}
                   loading={loading}
                 >
-                  同步数据
+                  刷新数据
                 </Button>
                 <Button
                   icon={<ToolOutlined />}
@@ -212,7 +207,7 @@ const App: React.FC = () => {
                     setActiveTab('settings');
                   }}
                 >
-                  应用配置
+                  系统设置
                 </Button>
               </Space>
             </div>

@@ -143,7 +143,7 @@ const AppSettings: React.FC = () => {
         title={
           <Space>
             <SettingOutlined />
-            <span>应用配置</span>
+            <span>系统设置</span>
             {configComplete && (
               <Tag color="green" icon={<CheckCircleOutlined />}>
                 已配置
@@ -165,7 +165,7 @@ const AppSettings: React.FC = () => {
         }
       >
         <Tabs activeKey={activeTab} onChange={setActiveTab}>
-          <TabPane tab="基本配置" key="config">
+          <TabPane tab="基本设置" key="config">
             <Form
               form={form}
               layout="vertical"
@@ -243,7 +243,7 @@ const AppSettings: React.FC = () => {
             </Form>
           </TabPane>
 
-          <TabPane tab="获取指南" key="guide">
+          <TabPane tab="使用指南" key="guide">
             <Space direction="vertical" size="large" style={{ width: '100%' }}>
               <Alert
                 message="如何获取应用凭证"
