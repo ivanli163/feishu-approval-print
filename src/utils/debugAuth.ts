@@ -2,7 +2,7 @@
  * 调试认证状态的工具
  */
 
-import { supabase } from './supababaseClient';
+import { supabase } from '../utils/supabaseClient';
 
 export const debugAuthState = () => {
   console.log('=== Supabase 调试信息 ===');
