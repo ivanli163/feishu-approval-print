@@ -203,26 +203,53 @@ code {
 }
 
 /* 响应式设计 */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .header-content {
-    flex-direction: column;
-    height: auto;
-    padding: 12px 0;
-    gap: 12px;
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .footer-content {
+    max-width: 100%;
+    padding: 0 16px;
+  }
+
+  .app-content {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 992px) {
+  .app-info {
+    display: none;
   }
 
   .app-title {
     font-size: 18px;
-    text-align: center;
   }
 
-  .app-info {
-    justify-content: center;
-    flex-wrap: wrap;
+  .header-right .ant-btn {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    height: auto;
+    padding: 12px 16px;
+    gap: 12px;
+  }
+
+  .app-title {
+    font-size: 16px;
+    text-align: center;
   }
 
   .header-right {
     justify-content: center;
+    width: 100%;
   }
 
   .app-content {
@@ -232,6 +259,202 @@ code {
   .footer-content {
     flex-direction: column;
     gap: 4px;
+    padding: 8px 16px;
+  }
+
+  /* 标签页在小屏幕上的优化 */
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+    font-size: 12px;
+    padding: 4px 8px;
+    margin-right: 2px;
+  }
+
+  .ant-tabs-nav {
+    margin-bottom: 8px;
+  }
+
+  /* 移动端标签页显示图标 */
+  .ant-tabs-tab .anticon {
+    display: inline-block !important;
+  }
+
+  /* 响应式标签页图标显示 */
+  .responsive-tabs .ant-tabs-tab {
+    text-align: center;
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .responsive-tabs .ant-tabs-tab .anticon {
+    margin-right: 0 !important;
+    font-size: 16px;
+  }
+
+  .responsive-tabs .ant-tabs-tab span {
+    display: block;
+    margin-top: 2px;
+  }
+
+  @media (max-width: 576px) {
+    .responsive-tabs .ant-tabs-tab {
+      padding: 6px 4px !important;
+      text-align: center;
+    }
+
+    .responsive-tabs .ant-tabs-tab .anticon {
+      font-size: 14px;
+      margin-right: 0;
+      display: block !important;
+    }
+
+    .responsive-tabs .ant-tabs-tab span {
+      display: block;
+      font-size: 10px;
+      margin-top: 2px;
+      line-height: 1.2;
+    }
+  }
+
+  /* 表格在小屏幕上的优化 */
+  .ant-table {
+    font-size: 12px;
+  }
+
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    padding: 8px 4px;
+  }
+}
+
+@media (max-width: 576px) {
+  .app-header {
+    padding: 0 8px;
+  }
+
+  .header-content {
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .app-title {
+    font-size: 14px;
+  }
+
+  .app-content {
+    padding: 4px;
+  }
+
+  .footer-content {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  /* 超小屏幕下的标签页优化 */
+  .ant-tabs-nav {
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab {
+    font-size: 11px;
+    padding: 2px 6px;
+    margin-right: 1px;
+  }
+
+  /* 按钮组优化 */
+  .header-right .ant-space {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .header-right .ant-btn {
+    font-size: 11px;
+    padding: 2px 6px;
+    height: auto;
+    min-height: 28px;
+  }
+
+  /* 卡片内容优化 */
+  .ant-card-body {
+    padding: 12px !important;
+  }
+
+  /* 表格优化 */
+  .ant-table {
+    font-size: 11px;
+  }
+
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    padding: 6px 2px;
+    word-break: break-word;
+  }
+
+  /* 模态框优化 */
+  .ant-modal {
+    margin: 8px;
+    max-width: calc(100vw - 16px);
+  }
+
+  .ant-modal-content {
+    max-height: calc(100vh - 16px);
+    overflow-y: auto;
+  }
+
+  /* 表单优化 */
+  .ant-form-item {
+    margin-bottom: 12px;
+  }
+
+  .ant-form-item-label {
+    text-align: left;
+  }
+
+  /* 分页优化 */
+  .ant-pagination {
+    text-align: center;
+  }
+
+  .ant-pagination .ant-pagination-total {
+    display: block;
+    margin-bottom: 8px;
+  }
+}
+
+/* 横屏优化 */
+@media (max-height: 600px) and (orientation: landscape) {
+  .app-header {
+    padding: 4px 16px;
+  }
+
+  .header-content {
+    height: 48px;
+  }
+
+  .app-title {
+    font-size: 16px;
+  }
+
+  .app-content {
+    padding: 8px 16px;
+  }
+
+  .footer-content {
+    padding: 4px 16px;
+  }
+
+  .ant-card-body {
+    padding: 12px !important;
+  }
+
+  .ant-tabs-nav {
+    margin-bottom: 4px;
+  }
+
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    padding: 4px 2px;
   }
 }
 
@@ -330,6 +553,163 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+/* 移动端优化类 */
+.mobile-hidden {
+  display: block;
+}
+
+.mobile-visible {
+  display: none;
+}
+
+/* 移动端触摸优化 */
+@media (max-width: 768px) {
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  .mobile-visible {
+    display: block !important;
+  }
+
+  .mobile-center {
+    text-align: center;
+  }
+
+  .mobile-full {
+    width: 100% !important;
+  }
+
+  /* 触摸友好的按钮 */
+  .ant-btn {
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .ant-btn-sm {
+    min-height: 36px;
+    font-size: 12px;
+  }
+
+  /* 表格行高优化 */
+  .ant-table-tbody > tr > td {
+    height: auto;
+    white-space: normal;
+    line-height: 1.4;
+  }
+
+  /* 表格内容换行 */
+  .ant-table-cell-content {
+    word-break: break-word;
+    white-space: normal;
+  }
+
+  /* 表格操作按钮 */
+  .ant-table-row-action {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .ant-table-row-action .ant-btn {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  /* 超小屏幕下表格操作优化 */
+  .ant-table-tbody > tr > td {
+    vertical-align: top;
+  }
+
+  .ant-table-cell-content {
+    display: block;
+    max-width: 100px;
+  }
+
+  /* 标签页内容区域滚动优化 */
+  .ant-tabs-content-holder {
+    overflow-x: hidden;
+  }
+
+  /* 搜索和筛选区域优化 */
+  .ant-space {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .ant-space-item {
+    width: 100%;
+  }
+}
+
+/* 大屏幕优化 */
+@media (min-width: 1400px) {
+  .header-content,
+  .footer-content {
+    max-width: 1400px;
+  }
+
+  .app-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px;
+  }
+}
+
+/* 表格响应式优化 */
+.responsive-table {
+  overflow-x: auto;
+}
+
+.responsive-table .ant-table {
+  min-width: 800px;
+}
+
+@media (max-width: 768px) {
+  .responsive-table .ant-table {
+    min-width: 100%;
+  }
+
+  .responsive-table .ant-table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 卡片网格布局优化 */
+.card-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+@media (max-width: 768px) {
+  .card-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* 状态指示器优化 */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 576px) {
+  .status-indicator {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
 }
 
 /* 状态颜色 */

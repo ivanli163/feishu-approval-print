@@ -215,11 +215,12 @@ const App: React.FC = () => {
               onChange={setActiveTab}
               type="card"
               size="large"
+              className="responsive-tabs"
               items={[
                 {
                   key: 'records',
                   label: (
-                    <span>
+                    <span className="mobile-hidden">
                       <FileTextOutlined />
                       审批记录
                     </span>
@@ -229,7 +230,7 @@ const App: React.FC = () => {
                 {
                   key: 'templates',
                   label: (
-                    <span>
+                    <span className="mobile-hidden">
                       <SettingOutlined />
                       模板管理
                     </span>
@@ -239,7 +240,7 @@ const App: React.FC = () => {
                 {
                   key: 'print',
                   label: (
-                    <span>
+                    <span className="mobile-hidden">
                       <PrinterOutlined />
                       打印中心
                     </span>
@@ -249,7 +250,7 @@ const App: React.FC = () => {
                 {
                   key: 'statistics',
                   label: (
-                    <span>
+                    <span className="mobile-hidden">
                       <BarChartOutlined />
                       数据统计
                     </span>
@@ -259,7 +260,7 @@ const App: React.FC = () => {
                 {
                   key: 'settings',
                   label: (
-                    <span>
+                    <span className="mobile-hidden">
                       <ToolOutlined />
                       应用配置
                     </span>
