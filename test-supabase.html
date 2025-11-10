@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase连接测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #0056b3; }
+        .log {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Supabase连接测试</h1>
+
+        <div class="status info">
+            <strong>测试目标:</strong> 验证Supabase数据库连接和认证功能
+        </div>
+
+        <h2>📋 环境配置</h2>
+        <div id="env-config"></div>
+
+        <h2>🔧 测试项目</h2>
+        <button onclick="testConnection()">测试数据库连接</button>
+        <button onclick="testAuth()">测试认证状态</button>
+        <button onclick="testTables()">测试数据表</button>
+        <button onclick="testUserCreation()">测试用户创建</button>
+        <button onclick="clearLog()">清空日志</button>
+
+        <h2>📝 测试结果</h2>
+        <div id="test-results"></div>
+
+        <h2>📊 详细日志</h2>
+        <div id="log" class="log">等待测试...</div>
+    </div>
+
+    <!-- 引入Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        // Supabase配置
+        const SUPABASE_URL = 'https://ljoalggzmclyxjftjyhg.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxqb2FsZ2d6bWNseXhqZnRqeWhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI3ODAyMjAsImV4cCI6MjA3ODM1NjIyMH0.LXNhDu5UkcFIT5dhdlZny9dWucBodbqpjDQzAoK23Zk';
+
+        // 创建Supabase客户端
+        const supabase = window.supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // 日志功能
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const logMessage = `[${timestamp}] ${message}\n`;
+            logElement.textContent += logMessage;
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(message);
+        }
+
+        function clearLog() {
+            document.getElementById('log').textContent = '';
+        }
+
+        function showResult(title, message, type = 'info') {
+            const resultsElement = document.getElementById('test-results');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `<strong>${title}:</strong> ${message}`;
+            resultsElement.appendChild(div);
+        }
+
+        // 显示环境配置
+        function showEnvConfig() {
+            const configElement = document.getElementById('env-config');
+            configElement.innerHTML = `
+                <div class="status info">
+                    <strong>Supabase URL:</strong> ${SUPABASE_URL}<br>
+                    <strong>Supabase Key:</strong> ${SUPABASE_ANON_KEY.substring(0, 20)}...<br>
+                    <strong>当前域名:</strong> ${window.location.hostname}<br>
+                    <strong>环境:</strong> ${window.location.hostname === 'localhost' ? '开发环境' : '生产环境'}
+                </div>
+            `;
+        }
+
+        // 测试数据库连接
+        async function testConnection() {
+            log('🔗 开始测试数据库连接...');
+            try {
+                // 简单的ping测试
+                const { data, error } = await supabase.from('users').select('count').limit(1);
+
+                if (error) {
+                    throw error;
+                }
+
+                log('✅ 数据库连接成功!');
+                log('返回数据: ' + JSON.stringify(data));
+                showResult('数据库连接', '连接成功', 'success');
+
+            } catch (error) {
+                log('❌ 数据库连接失败: ' + error.message);
+                showResult('数据库连接', `失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 测试认证状态
+        async function testAuth() {
+            log('🔐 开始测试认证状态...');
+            try {
+                const { data: { session }, error } = await supabase.auth.getSession();
+
+                if (error) {
+                    throw error;
+                }
+
+                if (session) {
+                    log('✅ 用户已登录');
+                    log('用户ID: ' + session.user.id);
+                    log('用户邮箱: ' + session.user.email);
+                    showResult('认证状态', '已登录', 'success');
+                } else {
+                    log('ℹ️ 用户未登录');
+                    showResult('认证状态', '未登录', 'warning');
+                }
+
+            } catch (error) {
+                log('❌ 认证检查失败: ' + error.message);
+                showResult('认证状态', `失败: ${error.message}`, 'error');
+            }
+        }
+
+        // 测试数据表
+        async function testTables() {
+            log('📊 开始测试数据表访问...');
+            const tables = ['users', 'templates', 'print_records'];
+
+            for (const table of tables) {
+                try {
+                    log(`检查表: ${table}`);
+                    const { data, error } = await supabase.from(table).select('*').limit(1);
+
+                    if (error) {
+                        throw error;
+                    }
+
+                    log(`✅ 表 ${table} 访问正常`);
+                    showResult(`表 ${table}`, '访问正常', 'success');
+
+                } catch (error) {
+                    log(`❌ 表 ${table} 访问失败: ${error.message}`);
+                    showResult(`表 ${table}`, `失败: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 测试用户创建
+        async function testUserCreation() {
+            log('👤 开始测试用户创建...');
+            try {
+                const testUser = {
+                    email: 'test@example.com',
+                    password: 'TestPassword123!',
+                    options: {
+                        data: {
+                            name: '测试用户',
+                            role: 'user'
+                        }
+                    }
+                };
+
+                const { data, error } = await supabase.auth.signUp(testUser);
+
+                if (error) {
+                    throw error;
+                }
+
+                log('✅ 用户创建测试成功');
+                log('用户ID: ' + data.user?.id);
+                showResult('用户创建', '测试成功', 'success');
+
+            } catch (error) {
+                log('ℹ️ 用户创建测试: ' + error.message);
+                showResult('用户创建', `信息: ${error.message}`, 'warning');
+            }
+        }
+
+        // 页面加载时显示配置
+        window.onload = function() {
+            showEnvConfig();
+            log('🚀 Supabase测试工具已加载');
+            log('点击上方按钮开始测试');
+        };
+    </script>
+</body>
+</html>
